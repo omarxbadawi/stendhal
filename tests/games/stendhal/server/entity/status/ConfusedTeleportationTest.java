@@ -13,6 +13,10 @@
 package games.stendhal.server.entity.status;
 
 import static org.junit.Assert.*;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -37,11 +41,14 @@ public class ConfusedTeleportationTest {
 	 */
 	@Test
 	public void testConfusedTeleport() {
-		final Player victim = PlayerTestHelper.createPlayer("iliterated");
+		final Player victim = PlayerTestHelper.createPlayer("Bob");
 		final ConfuseStatus Confused = new ConfuseStatus();
-		ConfuseStatusHandler confuseStatusHandler = new ConfuseStatusHandler();
+		final ConfuseStatusHandler confuseStatusHandler = new ConfuseStatusHandler();
 		confuseStatusHandler.inflict(Confused, victim.getStatusList(), SingletonRepository.getEntityManager().getCreature("mermaid"));
-		final MarkedScroll Tobeused = (MarkedScroll) SingletonRepository.getEntityManager().getItem("marked scrolls");
+		Map<String, String> attribute = new HashMap<String, String>();
+		attribute.put("quantity", "1");
+		attribute.put("menu", "Use|Use");
+		final MarkedScroll Tobeused = new MarkedScroll("Testscroll", "scroll", "marked", attribute);
 		victim.equip("bag", Tobeused);
 		assertFalse(Tobeused.onUsed(victim));
 	}
