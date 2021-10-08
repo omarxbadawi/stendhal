@@ -22,9 +22,13 @@ import org.junit.Test;
 
 import games.stendhal.server.core.engine.SingletonRepository;
 import games.stendhal.server.core.engine.StendhalRPZone;
+import games.stendhal.server.entity.player.Jail;
 import games.stendhal.server.entity.player.Player;
+import games.stendhal.server.maps.MockStendhalRPRuleProcessor;
 import games.stendhal.server.maps.MockStendlRPWorld;
+import marauroa.common.Log4J;
 import utilities.PlayerTestHelper;
+import utilities.RPClass.ArrestWarrentTestHelper;
 import games.stendhal.server.entity.item.scroll.MarkedScroll;
 
 public class ConfusedTeleportationTest {
@@ -34,7 +38,11 @@ public class ConfusedTeleportationTest {
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() {
-		MockStendlRPWorld.get();
+		Log4J.init();
+		StendhalRPZone start = new StendhalRPZone("confusion");
+		StendhalRPZone end = new StendhalRPZone("0_semos_city");
+		MockStendlRPWorld.get().addRPZone(start);
+		MockStendlRPWorld.get().addRPZone(end);
 	}
 
 	/**
@@ -43,8 +51,7 @@ public class ConfusedTeleportationTest {
 	@Test
 	public void testConfusedTeleport() {
 		final Player victim = PlayerTestHelper.createPlayer("Bob");
-		StendhalRPZone zone = new StendhalRPZone("the zone where the corpse shall be slain");
-		zone.add(victim);
+		MockStendlRPWorld.get().getRPZone("confusion").add(victim);
 		final ConfuseStatus Confused = new ConfuseStatus();
 		final ConfuseStatusHandler confuseStatusHandler = new ConfuseStatusHandler();
 		confuseStatusHandler.inflict(Confused, victim.getStatusList(), SingletonRepository.getEntityManager().getCreature("mermaid"));
