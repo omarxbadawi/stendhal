@@ -41,8 +41,9 @@ public class ConfusedTeleportationTest {
 	@Test
 	public void testConfusedTeleport() {
 		final Player victim = PlayerTestHelper.createPlayer("Bob");
-		SingletonRepository.getRPWorld().addRPZone(new StendhalRPZone("0_semos_city"));
-		SingletonRepository.getRPWorld().getZone("0_semos_city").add(victim);
+		SingletonRepository.getRPWorld().addRPZone(new StendhalRPZone("0_semos_city", 50, 50));
+		SingletonRepository.getRPWorld().addRPZone(new StendhalRPZone("0_semos_canyon", 50, 50));
+		SingletonRepository.getRPWorld().getZone("0_semos_canyon").add(victim);
 		final ConfuseStatus Confused = new ConfuseStatus();
 		final ConfuseStatusHandler confuseStatusHandler = new ConfuseStatusHandler();
 		confuseStatusHandler.inflict(Confused, victim.getStatusList(), SingletonRepository.getEntityManager().getCreature("mermaid"));
