@@ -15,16 +15,16 @@ public class CentaurSusTest {
 
 	@Test
 	public void SolarSustest() throws URISyntaxException {
-		//Checks the solar centaurs fire susceptibility and checks it's resistant to fire
+		//Checks the Solar centaurs fire susceptibility and checks it's resistant to fire
 		
-		assertThat(SingletonRepository.getEntityManager().getCreature("solar centaur").getSusceptibility(Nature.FIRE), closeTo(1.0, 0.00001) );
+		assertThat(SingletonRepository.getEntityManager().getCreature("solar centaur").getSusceptibility(Nature.FIRE), closeTo(0.8, 0.00001) );
 	}
 	
 	@Test
 	public void GlacierSustest() throws URISyntaxException {
 		//Checks the Glacier centaurs fire susceptibility and checks it's vulnerable to fire
 		
-		assertThat(SingletonRepository.getEntityManager().getCreature("glacier centaur").getSusceptibility(Nature.FIRE), closeTo(2, 1.1) );
+		assertThat(SingletonRepository.getEntityManager().getCreature("glacier centaur").getSusceptibility(Nature.FIRE), closeTo(1.2, 0.01) );
 	}
 	
 	public void GlacierTypetest() throws URISyntaxException {
