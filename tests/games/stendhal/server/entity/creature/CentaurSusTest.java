@@ -14,12 +14,29 @@ import games.stendhal.server.core.engine.SingletonRepository;
 public class CentaurSusTest {
 
 	@Test
-	public void test() throws URISyntaxException {
-		//CreatureGroupsXMLLoader creaturesXML = new CreatureGroupsXMLLoader(new URI("data/conf/creatures.xml"));
-		//creaturesXML.load();
-		//fail("I hope this works");
+	public void SolarSustest() throws URISyntaxException {
+		//Checks the solar centaurs fire susceptibility and checks it's resistant to fire
 		
 		assertThat(SingletonRepository.getEntityManager().getCreature("solar centaur").getSusceptibility(Nature.FIRE), closeTo(1.0, 0.00001) );
+	}
+	
+	@Test
+	public void GlacierSustest() throws URISyntaxException {
+		//Checks the Glacier centaurs fire susceptibility and checks it's vulnerable to fire
+		
+		assertThat(SingletonRepository.getEntityManager().getCreature("glacier centaur").getSusceptibility(Nature.FIRE), closeTo(2, 1.1) );
+	}
+	
+	public void GlacierTypetest() throws URISyntaxException {
+		//Checks the Glacier centaur is an ice type
+		
+		assertEquals(SingletonRepository.getEntityManager().getCreature("glacier centaur").getDamageType(), Nature.ICE);
+	}
+	
+	public void SolarTypetest() throws URISyntaxException {
+		//Checks the Solar centaur is an fire type
+		
+		assertEquals(SingletonRepository.getEntityManager().getCreature("solar centaur").getDamageType(), Nature.FIRE);
 	}
 
 }
