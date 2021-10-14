@@ -23,6 +23,7 @@ import games.stendhal.server.core.engine.SingletonRepository;
 import games.stendhal.server.core.engine.StendhalRPZone;
 import games.stendhal.server.core.events.TeleportNotifier;
 import games.stendhal.server.entity.player.Player;
+import games.stendhal.server.entity.status.StatusType;
 
 /**
  * Represents a marked teleport scroll.
@@ -64,6 +65,11 @@ public class MarkedScroll extends TeleportScroll {
 	 */
 	@Override
 	protected boolean useTeleportScroll(final Player player) {
+		// check if user is confused
+		if (player.hasStatus(StatusType.CONFUSED)) {
+			player.sendPrivateText("You are so confused that you find yourself unable to concerntrate on the destination!");
+			return false;
+		}
 		// init as home_scroll
 		StendhalRPZone zone = SingletonRepository.getRPWorld().getZone("0_semos_city");
 		int x = 30;
