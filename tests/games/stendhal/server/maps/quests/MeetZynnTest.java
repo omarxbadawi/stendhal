@@ -45,7 +45,7 @@ public class MeetZynnTest {
 	public void testIfXPIncreases() {
 		final int originalXP = player.getXP();
 		
-		en.step(player, "hi");
+		en.step(player, "Hi");
 		assertEquals("Hi, potential reader! Here you can find records of the history of Semos, and lots of interesting facts about this island of Faiumoni. If you like, I can give you a quick introduction to its #geography and #history! I also keep up with the #news, so feel free to ask me about that.", getReply(npc));
 		en.step(player, "history");
 		assertEquals("At present, there are two significant powers on Faiumoni; the Deniran Empire, and the dark legions of Blordrough. Blordrough has recently conquered the south of the island, seizing several steel mines and a large gold mine. At present, Deniran still controls the central and northern parts of Faiumoni, including several gold and mithril mines.", getReply(npc));
