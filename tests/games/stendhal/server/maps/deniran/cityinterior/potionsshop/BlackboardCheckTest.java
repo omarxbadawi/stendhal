@@ -1,5 +1,6 @@
+/* $Id$ */
 /***************************************************************************
- *                     Copyright © 2020 - Arianne                          *
+ *                   (C) Copyright 2003-2010 - Stendhal                    *
  ***************************************************************************
  ***************************************************************************
  *                                                                         *
@@ -13,27 +14,32 @@ package games.stendhal.server.maps.deniran.cityinterior.potionsshop;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import games.stendhal.server.core.engine.SingletonRepository;
+import games.stendhal.server.core.config.ZoneConfigurator;
 import games.stendhal.server.core.engine.StendhalRPZone;
 
-public class PotionShopTest {
+public class BlackboardCheckTest {
 
 	private static final String ZONE_NAME = "int_deniran_potions_shop";
-	private static StendhalRPZone potionZone;
+	private static StendhalRPZone zone;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-          potionZone = SingletonRepository.getRPWorld().getZone(ZONE_NAME);
-        }
-
-	@Test
-	public void initTest() {
-		assertEquals("blackboard", potionZone.getEntityAt(6, 5));
-		assertEquals("blackboard", potionZone.getEntityAt(10, 5));
+		zone = new StendhalRPZone(ZONE_NAME);
 	}
 
-}
+	@Before
+	public void setUp() {
+		final ZoneConfigurator zoneConf = new PotionsDealerNPC();
+		zoneConf.configureZone(zone, null);
+	}
 
+	@Test
+	public void testBlackboardExistence() {
+		assertEquals("blackboard", zone.getEntityAt(5, 6).getTitle());
+		assertEquals("blackboard", zone.getEntityAt(10, 6).getTitle());
+	}
+}
