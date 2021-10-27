@@ -212,6 +212,13 @@ public class Dojo implements ZoneConfigurator {
 				"At your level of experience, your attack strength is too high to train here at this time.",
 				null);
 
+		samurai.add(ConversationStates.ATTENDING,
+				FEE_PHRASES,
+				meetsLevelCapCondition,
+				ConversationStates.ATTENDING,
+				"At your level of experience, your attack strength is too high to train here at this time.",
+				null);
+
 		// player does not have an assassins id
 		samurai.add(ConversationStates.ATTENDING,
 				TRAIN_PHRASES,
