@@ -167,6 +167,20 @@ Authors of Stendhal are:
   · Bugs fixer
   - Diligent Dodo (aka Soniccuz)
   · Artist (mimic, dodo, suba diving concepts)
+- Jin Wang
+  · Coder (fixed Teleport scroll bug)
+- Ingy Abdelhalim
+  · Coder (fixed Zynn dialogue bug)
+- Georgia Cawley
+  · Coder (fixed Centaurs susceptibility bug)
+- Ignes Simeonova
+  · Coder (fixed Gamblos arrow bug)
+- Ivan Zhechev
+  · Coder (fixed Potion shop bug)
+- Omar Badawi
+  · Coder (fixed Omura dialogue bug)
+- Shakhawath Shah
+  · Coder (fixed Elvish hat bug)
 
 We also thank many who have contributed to Stendhal by providing patches,
 which the rest of the team commited on their behalf.

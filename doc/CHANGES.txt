@@ -1,6 +1,15 @@
 Changelog
 ---------
 ---------
+1.36uom
+*fixes*
+- Solar Centaur is now susceptible to ice; Glacier Centaur is now susceptible to fire.
+- Zynn gives experience for being asked questions.
+- Teleport scrolls can't be used when the player is poisoned.
+- Omura checks strength level before offering training.
+- Blackboards displaying the items Wanda is selling and buying have been added.
+- Elvish hat added as a requirement for Lupos's quest.
+- Gamblos accepts player's reversed arrow.
 
 1.36
 *world*
