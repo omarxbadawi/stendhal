@@ -12,6 +12,8 @@
  ***************************************************************************/
 package games.stendhal.server.maps.quests;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -24,6 +26,7 @@ import games.stendhal.server.core.engine.StendhalRPZone;
 import games.stendhal.server.entity.mapstuff.portal.Door;
 import games.stendhal.server.entity.mapstuff.sign.Sign;
 import games.stendhal.server.entity.npc.NPCList;
+import games.stendhal.server.entity.player.Player;
 import games.stendhal.server.maps.MockStendlRPWorld;
 import marauroa.common.game.RPClass;
 import utilities.PlayerTestHelper;
@@ -45,14 +48,24 @@ public class ReverseArrowTest {
 		if (!RPClass.hasRPClass("sign")) {
 			Sign.generateRPClass();
 		}
-
 	}
+	
+	private ReverseArrow setUpReverseArrow() {
+		ReverseArrow arrowquest = new ReverseArrow();
+		arrowquest.addToWorld();
+
+		Player player = PlayerTestHelper.createPlayer("bob");
+		arrowquest.zone.add(player);
+		arrowquest.start(player);
+		
+		return arrowquest;
+	}
+
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
 		MockStendlRPWorld.reset();
 		NPCList.get().clear();
 	}
-
 
 	/**
 	 * Tests for getSlotName.
@@ -87,5 +100,53 @@ public class ReverseArrowTest {
 		arrowquest.finish(true, null);
 		assertNull(arrowquest.player);
 	}
+	
+	/**
+	 * Tests for win.
+	 */
+	@Test
+	public void testWinFullArrow() {
+		// * * 0 * *
+		// * 1 2 3 *
+		// 4 5 6 7 8
 
+		ReverseArrow arrowquest = setUpReverseArrow();
+		
+		final int leftX = arrowquest.tokens.get(0).getX();
+		final int leftY = arrowquest.tokens.get(0).getY();
+
+		arrowquest.tokens.get(0).setPosition(leftX, leftY + 1);
+		arrowquest.tokens.get(4).setPosition(leftX + 4, leftY + 1);
+		arrowquest.tokens.get(8).setPosition(leftX + 2, leftY - 1);
+		arrowquest.new ReverseArrowCheck().onTurnReached(5);
+
+		assertTrue(arrowquest.player.isQuestCompleted("reverse_arrow"));
+	}
+
+	@Test
+	public void testWinNotFullArrow() {
+		// * * 0 * *
+		// * 1 * 2 *
+		// 3 4 5 6 7
+		// * * 8 * *
+
+		ReverseArrow arrowquest = setUpReverseArrow();
+		
+		final int leftX = arrowquest.tokens.get(0).getX();
+		final int leftY = arrowquest.tokens.get(0).getY();
+		
+		arrowquest.tokens.get(5).setPosition(leftX + 1, leftY - 1);
+		arrowquest.tokens.get(7).setPosition(leftX + 3, leftY - 1);
+		arrowquest.tokens.get(8).setPosition(leftX + 2, leftY - 2);
+		arrowquest.new ReverseArrowCheck().onTurnReached(5);
+
+		assertTrue(arrowquest.player.isQuestCompleted("reverse_arrow"));
+	}
+
+	@Test
+	public void testWinFail() {
+		ReverseArrow arrowquest = setUpReverseArrow();
+		arrowquest.new ReverseArrowCheck().onTurnReached(5);
+		assertFalse(arrowquest.player.isQuestCompleted("reverse_arrow"));
+	}
 }

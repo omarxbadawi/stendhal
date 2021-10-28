@@ -60,7 +60,6 @@ public class ReverseArrow extends AbstractQuest implements
 
 	private static final Logger LOGGER = Logger.getLogger(ReverseArrow.class);
 
-	// constants
 	private static final String QUEST_SLOT = "reverse_arrow";
 
 	private static final String ZONE_NAME = "int_ados_reverse_arrow";
@@ -113,10 +112,10 @@ public class ReverseArrow extends AbstractQuest implements
 			// We check the complete arrow (and not just the three moved
 			// tokens) here for two reasons:
 
-			// 1. there are 6 permutions so the code would quite messy
-			// 2. there may be a solution i did not recognize
+			// 1. there are 6 permutations so the code would quite messy
+			// 2. there may be a solution I did not recognize
 
-			// This aproach has the side effect that the code does not
+			// This approach has the side effect that the code does not
 			// tell the solution :-)
 
 			// sort the tokens according to their position
@@ -130,15 +129,25 @@ public class ReverseArrow extends AbstractQuest implements
 					return d;
 				}
 			});
-			// * * 0 * *
-			// * 1 2 3 *
-			// 4 5 6 7 8
 
 			// get the position of the topmost token
 			final int topX = tokens.get(0).getX();
 			final int topY = tokens.get(0).getY();
+			
+			return checkFullArrow(topX, topY) || checkNotFullArrow(topX, topY);
+		}
 
-			// check first row
+		/**
+		 * Check if the tokens form a full arrow.
+		 *
+		 * @return true on success, false on failure
+		 */
+		private boolean checkFullArrow(final int topX, final int topY) {
+			// * * 0 * *
+			// * 1 2 3 *
+			// 4 5 6 7 8
+
+			// check second row
 			for (int i = 1; i <= 3; i++) {
 				final Token token = tokens.get(i);
 				if (token.getX() != topX - 1 + i - 1
@@ -147,13 +156,49 @@ public class ReverseArrow extends AbstractQuest implements
 				}
 			}
 
-			// check second row
+			// check third row
 			for (int i = 4; i <= 8; i++) {
 				final Token token = tokens.get(i);
 				if (token.getX() != topX - 2 + i - 4
 						|| token.getY() != topY + 2) {
 					return false;
 				}
+			}
+			return true;
+		}
+
+		/**
+		 * Check if the tokens form a not full arrow.
+		 *
+		 * @return true on success, false on failure
+		 */
+		private boolean checkNotFullArrow(final int topX, final int topY) {
+			// * * 0 * *
+			// * 1 * 2 *
+			// 3 4 5 6 7
+			// * * 8 * *
+
+			// check second row
+			if (tokens.get(1).getX() != topX - 1 || tokens.get(1).getY() != topY + 1) {
+				return false;
+			}
+
+			if (tokens.get(2).getX() != topX + 1 || tokens.get(2).getY() != topY + 1) {
+				return false;
+			}
+
+			// check third row
+			for (int i = 3; i <= 7; i++) {
+				final Token token = tokens.get(i);
+				if (token.getX() != topX - 2 + i - 3
+						|| token.getY() != topY + 2) {
+					return false;
+				}
+			}
+			
+			// check forth row
+			if (tokens.get(8).getX() != topX || tokens.get(8).getY() != topY + 3) {
+				return false;
 			}
 
 			return true;
@@ -485,8 +530,10 @@ public class ReverseArrow extends AbstractQuest implements
 	 */
 	public void start(final Player player) {
 		final IRPZone playerZone = player.getZone();
+		System.out.println("BABABABABAB");
 
 		if (playerZone.equals(zone)) {
+			System.out.println("ESIESI");
 			this.player = player;
 			removeAllTokens();
 			addAllTokens();
