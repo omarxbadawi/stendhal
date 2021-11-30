@@ -9,8 +9,7 @@ public class FoxTestHelperTest {
 
 	@Test
 	public void testGenerateRPClasses() {
-		//TODO
-		//FoxTestHelper.generateRPClasses();
+		FoxTestHelper.generateRPClasses();
 		assertTrue(RPClass.hasRPClass("fox"));
 	}
 

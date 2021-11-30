@@ -9,13 +9,13 @@ import org.junit.Test;
 
 import games.stendhal.server.core.engine.SingletonRepository;
 import games.stendhal.server.maps.MockStendlRPWorld;
-//import utilities.RPClass.FoxTestHelper;
+import utilities.RPClass.FoxTestHelper;
 
 public class FoxTest {
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		//FoxTestHelper.generateRPClasses();
+		FoxTestHelper.generateRPClasses();
 		MockStendlRPWorld.get();
 	}
 	
@@ -24,7 +24,7 @@ public class FoxTest {
 	 */
 	@Test
 	public void testFox() {
-		Creature swiper = SingletonRepository.getEntityManager().getCreature("fox");
+		Creature swiper = new Fox();
 		int moneyChance = 3;// TODO swiper.getMoneyPercent();
 		assertEquals(0.1, moneyChance, 0.001);
 		
