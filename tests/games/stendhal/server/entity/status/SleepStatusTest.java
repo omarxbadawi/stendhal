@@ -72,7 +72,7 @@ public class SleepStatusTest {
 		eatListener.onTurnReached(5);
 		assertTrue(victim.hasStatus(StatusType.EATING));
 		
-		final SleepStatus sleep = new SleepStatus(30, 10, 30);
+		final SleepStatus sleep = new SleepStatus(30, 5, 30);
 		final SleepStatusHandler sleepStatusHandler = new SleepStatusHandler();
 		sleepStatusHandler.inflict(sleep, victim.getStatusList(), victim);
 		final SleepStatusTurnListener sleepListener = new SleepStatusTurnListener(victim.getStatusList());
