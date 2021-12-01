@@ -27,7 +27,7 @@ public class SleepStatus extends ConsumableStatus {
 	 * @param frequency  frequency of events
 	 * @param regen      hp change on each event
 	 */
-	public EatStatus(int amount, int frequency, int regen) {
+	public SleepStatus(int amount, int frequency, int regen) {
 		super("sleep", amount, frequency, regen);
 	}
 

@@ -12,8 +12,6 @@
  ***************************************************************************/
 package games.stendhal.server.entity.status;
 
-import static games.stendhal.common.constants.Actions.TYPE;
-import static games.stendhal.common.constants.Actions.WALK;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
@@ -22,13 +20,13 @@ import static org.junit.Assert.assertTrue;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import games.stendhal.server.actions.move.PushAction;
+
 import games.stendhal.server.core.engine.SingletonRepository;
 import games.stendhal.server.core.engine.StendhalRPZone;
 import games.stendhal.server.entity.item.ConsumableItem;
 import games.stendhal.server.entity.player.Player;
 import games.stendhal.server.maps.MockStendlRPWorld;
-import marauroa.common.game.RPAction;
+
 import utilities.PlayerTestHelper;
 
 public class SleepStatusTest {
@@ -49,11 +47,11 @@ public class SleepStatusTest {
 		final Player victim = PlayerTestHelper.createPlayer("bob");
 		victim.initHP(100);
 		victim.setHP(50);
-		final SleepStatus sleep = new SleepStatus(10, 30);
+		final SleepStatus sleep = new SleepStatus(30, 10, 30);
 		final SleepStatusHandler sleepStatusHandler = new SleepStatusHandler();
 		sleepStatusHandler.inflict(sleep, victim.getStatusList(), victim);
 		final SleepStatusTurnListener listener = new SleepStatusTurnListener(victim.getStatusList());
-		assertTrue(victim.hasStatus(StatusType.SLEEP));
+		assertTrue(victim.hasStatus(StatusType.SLEEPING));
 		listener.onTurnReached(10);
 		assertEquals(victim.getHP(), 80);
 	}
@@ -70,15 +68,16 @@ public class SleepStatusTest {
 		final EatStatus eat = new EatStatus(30, 10, 30);
 		final EatStatusHandler eatStatusHandler = new EatStatusHandler();
 		eatStatusHandler.inflict(eat, victim.getStatusList(), victim);
-		final EatStatusTurnListener listener = new EatStatusTurnListener(victim.getStatusList());
+		final EatStatusTurnListener eatListener = new EatStatusTurnListener(victim.getStatusList());
+		eatListener.onTurnReached(5);
 		assertTrue(victim.hasStatus(StatusType.EATING));
 		
-		final SleepStatus sleep = new SleepStatus(10, 30);
+		final SleepStatus sleep = new SleepStatus(30, 10, 30);
 		final SleepStatusHandler sleepStatusHandler = new SleepStatusHandler();
 		sleepStatusHandler.inflict(sleep, victim.getStatusList(), victim);
-		final SleepStatusTurnListener listener = new SleepStatusTurnListener(victim.getStatusList());
-		assertTrue(victim.hasStatus(StatusType.SLEEP));
-		listener.onTurnReached(5);
+		final SleepStatusTurnListener sleepListener = new SleepStatusTurnListener(victim.getStatusList());
+		assertTrue(victim.hasStatus(StatusType.SLEEPING));
+		sleepListener.onTurnReached(5);
 		assertEquals(victim.getHP(), 80);
 	}
 	
@@ -92,16 +91,16 @@ public class SleepStatusTest {
 		SingletonRepository.getRPWorld().getZone("0_semos_canyon").add(victim);
 		victim.setPosition(0, 0);
 
-		final SleepStatus sleep = new SleepStatus(10, 30);
+		final SleepStatus sleep = new SleepStatus(30, 10, 30);
 		final SleepStatusHandler sleepStatusHandler = new SleepStatusHandler();
 		sleepStatusHandler.inflict(sleep, victim.getStatusList(), victim);
 		final SleepStatusTurnListener listener = new SleepStatusTurnListener(victim.getStatusList());
-		assertTrue(victim.hasStatus(StatusType.SLEEP));
+		assertTrue(victim.hasStatus(StatusType.SLEEPING));
 		
 		victim.setPathPosition(10);
 		victim.applyMovement();
-
-		assertFalse(victim.hasStatus(StatusType.SLEEP));
+		listener.onTurnReached(10);
+		assertFalse(victim.hasStatus(StatusType.SLEEPING));
 	}
 	
 	
@@ -127,10 +126,10 @@ public class SleepStatusTest {
 		assertEquals(victim.getHP(), 40);
 
 
-		final SleepStatus sleep = new SleepStatus(10, 30);
+		final SleepStatus sleep = new SleepStatus(30, 10, 30);
 		final SleepStatusHandler sleepStatusHandler = new SleepStatusHandler();
 		sleepStatusHandler.inflict(sleep, victim.getStatusList(), victim);
-		assertTrue(victim.hasStatus(StatusType.SLEEP));
+		assertTrue(victim.hasStatus(StatusType.SLEEPING));
 		listener.onTurnReached(5);
 		assertNotEquals(victim.getHP(), 30);
 	}
