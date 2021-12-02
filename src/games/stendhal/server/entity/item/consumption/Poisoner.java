@@ -11,9 +11,14 @@
  ***************************************************************************/
 package games.stendhal.server.entity.item.consumption;
 
+import java.util.Arrays;
+import java.util.List;
+
 import games.stendhal.server.entity.item.ConsumableItem;
 import games.stendhal.server.entity.player.Player;
 import games.stendhal.server.entity.status.PoisonStatus;
+import games.stendhal.server.entity.status.SleepStatus;
+import games.stendhal.server.entity.status.Status;
 
 /**
  * Poisoner
@@ -23,7 +28,13 @@ public class Poisoner implements Feeder {
 	@Override
 	public boolean feed(final ConsumableItem item, final Player player) {
 		ConsumableItem splitOff = (ConsumableItem) item.splitOff(1);
-		PoisonStatus status = new PoisonStatus(splitOff.getAmount(), splitOff.getFrecuency(), splitOff.getRegen());
+		Status status;
+		List<String> sleep = Arrays.asList("sleep potion");
+		if (sleep.contains(item.getName())) {
+			status = new SleepStatus(splitOff.getAmount(), splitOff.getFrecuency(), splitOff.getRegen());
+		} else {
+			status = new PoisonStatus(splitOff.getAmount(), splitOff.getFrecuency(), splitOff.getRegen());
+		}
 		player.getStatusList().inflictStatus(status, splitOff);
 		return true;
 	}
