@@ -39,11 +39,12 @@ public class TourGuideNPCTest extends ZonePlayerAndNPCTestImpl {
 	private static final String npcName = "Touristo Maps";
 	private static Player player;
 	private static SpeakerNPC Touristo;
+	private Engine touristoEngine;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		QuestHelper.setUpBeforeClass();
-		setupZone(ZONE_NAME);
+		setupZone(ZONE_NAME, new TourGuideNPC());
 	}
 
 	@Override
@@ -53,15 +54,20 @@ public class TourGuideNPCTest extends ZonePlayerAndNPCTestImpl {
 		setNpcNames(npcName);
 
 		super.setUp();
-
 		player = PlayerTestHelper.createPlayer("player");
 		Touristo = SingletonRepository.getNPCList().get("Touristo Maps");
+
+		touristoEngine = Touristo.getEngine();
 	}
 
 	@Test
 	public void initTest() {
+		TourGuideDialogueTest();
 		testEntities();
-		testHi();
+	}
+	
+	public TourGuideNPCTest() {
+		super(ZONE_NAME, "Touristo Maps");
 	}
 
 	//Player and Touristo are not null values
@@ -70,14 +76,14 @@ public class TourGuideNPCTest extends ZonePlayerAndNPCTestImpl {
 		assertNotNull(Touristo);
 	}
 	
-	private void testHi() {
-		final Engine en = Touristo.getEngine();
+	private void TourGuideDialogueTest() {
 
-		en.step(player, "hi");
-		assertEquals(ConversationStates.ATTENDING, en.getCurrentState());
+		touristoEngine.step(player, "hi");
+		assertEquals(ConversationStates.ATTENDING, touristoEngine.getCurrentState());
 		assertEquals("Hi! My name is Touristo. I'll be starting a tour to Nalwor soon.", getReply(Touristo));
-		en.step(player, "bye");
-		assertEquals(ConversationStates.IDLE, en.getCurrentState());
+		touristoEngine.step(player, "bye");
+		assertEquals("Bye", getReply(Touristo));
+		assertEquals(ConversationStates.IDLE, touristoEngine.getCurrentState());
 	}
 
 }
