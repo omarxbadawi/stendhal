@@ -972,6 +972,7 @@ West: Semos
     <configurator class-name="games.stendhal.server.maps.ados.city.DogNPC" />
     <configurator class-name="games.stendhal.server.maps.ados.city.KidGhostNPC" />
     <configurator class-name="games.stendhal.server.maps.ados.city.HolidayingWomanNPC" />
+    <configurator class-name="games.stendhal.server.maps.ados.city.TourGuideNPC" />
 
     <entity x="83" y="9">
       <implementation class-name="games.stendhal.server.entity.mapstuff.sound.PeriodicAmbientSoundSource">
