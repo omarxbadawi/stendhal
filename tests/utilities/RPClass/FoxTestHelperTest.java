@@ -9,8 +9,8 @@ public class FoxTestHelperTest {
 
 	@Test
 	public void testGenerateRPClasses() {
-		FoxTestHelper.generateRPClasses();
-		assertTrue(RPClass.hasRPClass("fox"));
+		Fox_PetTestHelper.generateRPClasses();
+		assertTrue(RPClass.hasRPClass("fox_pet"));
 	}
 
 }

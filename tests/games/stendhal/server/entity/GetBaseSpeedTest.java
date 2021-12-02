@@ -20,13 +20,13 @@ import org.junit.Test;
 import games.stendhal.server.entity.creature.Cat;
 import games.stendhal.server.entity.creature.Creature;
 import games.stendhal.server.entity.creature.Sheep;
-import games.stendhal.server.entity.creature.Fox;
+import games.stendhal.server.entity.creature.Fox_Pet;
 import games.stendhal.server.entity.npc.SpeakerNPC;
 import games.stendhal.server.maps.MockStendlRPWorld;
 import utilities.PlayerTestHelper;
 import utilities.RPClass.CatTestHelper;
 import utilities.RPClass.SheepTestHelper;
-import utilities.RPClass.FoxTestHelper;
+import utilities.RPClass.Fox_PetTestHelper;
 
 public class GetBaseSpeedTest {
 
@@ -35,7 +35,7 @@ public class GetBaseSpeedTest {
 
 		MockStendlRPWorld.get();
 		PlayerTestHelper.generateCreatureRPClasses();
-		FoxTestHelper.generateRPClasses();
+		Fox_PetTestHelper.generateRPClasses();
 		CatTestHelper.generateRPClasses();
 		SheepTestHelper.generateRPClasses();
 	}
@@ -48,7 +48,7 @@ public class GetBaseSpeedTest {
 
 		assertEquals(0.2, (new SpeakerNPC("bob")).getBaseSpeed(), 0.001);
 		assertEquals(0.0, (new Creature()).getBaseSpeed(), 0.001);
-		assertEquals(0.8, (new Fox()).getBaseSpeed(), 0.001);
+		assertEquals(0.8, (new Fox_Pet()).getBaseSpeed(), 0.001);
 		//TODOs
 		//assertEquals(0.8, (new Fox()).getBaseSpeed(), 0.001);
 		//assertEquals(0.8, SingletonRepository.getEntityManager().getCreature("FoxPet").getBaseSpeed(), 0.001);

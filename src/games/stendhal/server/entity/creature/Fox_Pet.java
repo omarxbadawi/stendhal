@@ -10,9 +10,9 @@ import marauroa.common.game.RPClass;
 import marauroa.common.game.RPObject;
 import marauroa.common.game.SyntaxException;
 
-public class Fox extends Pet{
+public class Fox_Pet extends Pet{
 	/** the logger instance. */
-	private static final Logger logger = Logger.getLogger(Fox.class);
+	private static final Logger logger = Logger.getLogger(Fox_Pet.class);
 
 	@Override
 	void setUp() {
@@ -42,7 +42,7 @@ public class Fox extends Pet{
 	}
 	public static void generateRPClass() {
 		try {
-			final RPClass fox = new RPClass("fox");
+			final RPClass fox = new RPClass("fox_pet");
 			fox.isA("pet");
 			// fox.add("weight", Type.BYTE);
 			// fox.add("eat", Type.FLAG);
@@ -54,7 +54,7 @@ public class Fox extends Pet{
 	/**
 	 * Creates a new wild fox.
 	 */
-	public Fox() {
+	public Fox_Pet() {
 		this(null);
 	}
 
@@ -62,14 +62,14 @@ public class Fox extends Pet{
 	 * Creates a new fox that may be owned by a player.
 	 * @param owner owning player, or <code>null</code>
 	 */
-	public Fox(final Player owner) {
+	public Fox_Pet(final Player owner) {
 		// call set up before parent constructor is called as it needs those
 		// values
 		super();
 		setOwner(owner);
 		setUp();
-		setRPClass("fox");
-		put("type", "fox");
+		setRPClass("fox_pet");
+		put("type", "fox_pet");
 
 		if (owner != null) {
 			// add pet to zone and create RPObject.ID to be used in setPet()
@@ -88,10 +88,10 @@ public class Fox extends Pet{
 	 * @param owner
 	 *            The player who should own the fox
 	 */
-	public Fox(final RPObject object, final Player owner) {
+	public Fox_Pet(final RPObject object, final Player owner) {
 		super(object, owner);
-		setRPClass("fox");
-		put("type", "fox");
+		setRPClass("fox_pet");
+		put("type", "fox_pet");
 		update();
 	}
 
@@ -133,6 +133,6 @@ public class Fox extends Pet{
 	protected boolean canSteal() {
 		return true;
 	}
-	
-}
+
+	}	
 

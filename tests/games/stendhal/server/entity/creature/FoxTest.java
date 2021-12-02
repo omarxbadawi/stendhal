@@ -3,7 +3,9 @@ package games.stendhal.server.entity.creature;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
+//import static org.junit.Assert.fail;
 //import static org.junit.Assert.fail;
 
 //import org.hamcrest.core.Is;
@@ -15,16 +17,18 @@ import games.stendhal.server.core.engine.SingletonRepository;
 //import games.stendhal.server.entity.creature;
 import games.stendhal.server.core.engine.StendhalRPZone;
 import games.stendhal.server.entity.player.Player;
-//import marauroa.common.game.RPObject;
+import marauroa.common.Log4J;
+import marauroa.common.game.RPObject;
 import games.stendhal.server.maps.MockStendlRPWorld;
 import utilities.PlayerTestHelper;
-import utilities.RPClass.FoxTestHelper;
+import utilities.RPClass.Fox_PetTestHelper;
 
 public class FoxTest {
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		FoxTestHelper.generateRPClasses();
+		Log4J.init();
+		Fox_PetTestHelper.generateRPClasses();
 		MockStendlRPWorld.get();
 	}
 	
@@ -38,7 +42,7 @@ public class FoxTest {
 		//zone.add(bob);
 		//final Fox swiper = new Fox(bob);
 		//List<String> foodnames = swiper.getFoodNames();
-		assertEquals(0.1, Fox.getProbability(), 0.002);
+		assertEquals(0.1, Fox_Pet.getProbability(), 0.002);
 		//int moneyChance = 3;// TODO swiper.getMoneyPercent();
 		//assertEquals(0.1, moneyChance, 0.001);
 		
@@ -49,16 +53,24 @@ public class FoxTest {
 	 * Test if foxes target the creature the player is attacking
 	 */
 	public void testStealing(){
-		final StendhalRPZone zone = new StendhalRPZone("zone");
-		final Player bob = PlayerTestHelper.createPlayer("bob");
+		StendhalRPZone zone = new StendhalRPZone("zone");
+		Player bob = PlayerTestHelper.createPlayer("bob");
 		zone.add(bob);
-		final Fox swiper = new Fox(bob);
+		RPObject template = new RPObject();
+		template.put("hp", 30);
+		Fox_Pet swiper = new Fox_Pet(template, bob);
+		assertNotNull(swiper);
 		zone.add(swiper);
-		final Creature attackTarget = SingletonRepository.getEntityManager().getCreature("snake");
+		Creature attackTarget = SingletonRepository.getEntityManager().getCreature("snake");
 		zone.add(attackTarget);
 		assertEquals(swiper.getHasStolen(), false);
 		bob.setTarget(attackTarget);
-		assertThat(swiper.getAttackTarget(), is(attackTarget));
+		bob.attack();
+		//swiper.logic();
+		//swiper.setTarget(attackTarget);
+		assertNotNull(swiper.getAttackTarget());
+		//fail(""+swiper.getAttackTarget());
+		assertThat(swiper.getAttackTarget(), is(bob.getAttackTarget()));
 
 		}
 		
