@@ -54,6 +54,7 @@ import games.stendhal.server.entity.Entity;
 import games.stendhal.server.entity.RPEntity;
 import games.stendhal.server.entity.creature.AttackableCreature;
 import games.stendhal.server.entity.creature.BabyDragon;
+import games.stendhal.server.entity.creature.Fox_Pet;
 import games.stendhal.server.entity.creature.Creature;
 import games.stendhal.server.entity.creature.DomesticAnimal;
 import games.stendhal.server.entity.creature.Sheep;
@@ -948,6 +949,8 @@ public class StendhalRPZone extends MarauroaRPZone {
 			sheepFoods.add((SheepFood) object);
 		} else if (object instanceof BabyDragon) {
 			playersAndFriends.add((BabyDragon) object);
+		} else if (object instanceof Fox_Pet) {
+			playersAndFriends.add((Fox_Pet) object);
 		} else if (object instanceof SpeakerNPC) {
 			SingletonRepository.getNPCList().add((SpeakerNPC) object);
 		} else if (object instanceof Portal) {
@@ -1017,6 +1020,8 @@ public class StendhalRPZone extends MarauroaRPZone {
 		} else if (object instanceof SheepFood) {
 			sheepFoods.remove(object);
 		} else if (object instanceof BabyDragon) {
+			playersAndFriends.remove(object);
+		} else if (object instanceof Fox_Pet) {
 			playersAndFriends.remove(object);
 		} else if (object instanceof SpeakerNPC) {
 			SingletonRepository.getNPCList().remove(((SpeakerNPC) object).getName());

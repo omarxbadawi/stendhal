@@ -84,6 +84,7 @@ public class PlayerRPClass {
 		player.addAttribute("cat", Type.INT);
 		player.addAttribute("baby_dragon", Type.INT);
 		player.addAttribute("purple_dragon", Type.INT);
+		player.addAttribute("fox_pet", Type.INT);
 
 		// Bank system
 		player.addRPSlot("bank", 30, Definition.HIDDEN);
