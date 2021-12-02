@@ -13,11 +13,15 @@ package games.stendhal.server.entity.creature;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import org.apache.log4j.Logger;
 
+import games.stendhal.common.EquipActionConsts;
 import games.stendhal.common.ItemTools;
 import games.stendhal.common.Rand;
+import games.stendhal.server.actions.equip.EquipAction;
+import games.stendhal.server.actions.equip.EquipmentAction;
 import games.stendhal.server.core.events.TurnListener;
 import games.stendhal.server.core.events.TurnNotifier;
 import games.stendhal.server.entity.Killer;
@@ -26,6 +30,7 @@ import games.stendhal.server.entity.item.ConsumableItem;
 import games.stendhal.server.entity.item.Item;
 import games.stendhal.server.entity.player.Player;
 import marauroa.common.game.Definition.Type;
+import marauroa.common.game.RPAction;
 import marauroa.common.game.RPClass;
 import marauroa.common.game.RPObject;
 import marauroa.common.game.SyntaxException;
@@ -54,8 +59,20 @@ public abstract class Pet extends DomesticAnimal {
 	private static final int START_HUNGER_VALUE = 0;
 	
 	/**
-	 * This lets us know if the pet can steal things
+	 * This will be the percentage chance they can steal
 	 */
+	protected static double probability = 0.1;
+
+	/**
+	 * Random number generator.
+	 */
+	protected Random rand;
+	/**
+	 * Has pet stolen anything
+	 */
+	protected boolean hasStolen = false;
+	
+	
 	
 	
 	/** the logger instance. */
@@ -157,12 +174,24 @@ public abstract class Pet extends DomesticAnimal {
 		}
 	}
 	
+	public boolean getHasStolen() {
+		return this.hasStolen;
+	}
+	
 	/**
 	 * Can this Pet steal
 	 *
 	 * @return true, if it can be attacked by creatures, false otherwise
 	 */
 	protected boolean canSteal() {
+		return false;
+	}
+	
+	protected boolean stealChance() {
+		rand = new Random();
+		if (rand.nextDouble() < probability) {
+			return true;
+		}
 		return false;
 	}
 
@@ -286,10 +315,40 @@ public abstract class Pet extends DomesticAnimal {
 				clearPath();
 				this.setMovement(myTarget, 0, 0, this.getMovementRange());
 					}
+			/**
+			 * If the pet is next to the target, you're
+			 * attacking you have a chance to 
+			 * steal from the target
+			 */
+		
+			else {
+				hasStolen = stealChance();
+			}
 			
-			//Stealing occurs
+			//TODO Stealing occurs
 			//once true the pet will return to owner
-		//List<Item> stealables = myTarget.getDroppables();
+			//List<Item> stealables = myTarget.getDroppables();
+			//moveToOwner();
+			if(hasStolen && nextTo(owner)) {
+				RPAction equip = new RPAction();
+				equip.put("type", "equip");
+				equip.put(EquipActionConsts.BASE_ITEM, "money");
+				equip.put(EquipActionConsts.TARGET_OBJECT, "money");
+				equip.put(EquipActionConsts.TARGET_SLOT, "bag");
+				equip.put(EquipActionConsts.QUANTITY, "20");
+				final EquipmentAction action = new EquipAction();
+				action.onAction(owner, equip);
+				hasStolen = false;
+			}
+			else if(hasStolen) {
+				clearPath();
+				moveToOwner();
+				
+				this.applyMovement();
+				notifyWorldAboutChanges();
+			}
+			
+			
 		}
 		
 		if ((this.getLevel() >= this.getLVCap()) && canGrow()) {

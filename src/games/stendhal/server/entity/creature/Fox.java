@@ -30,7 +30,16 @@ public class Fox extends Pet{
 		setBaseHP(HP);
 		setHP(HP);
 	}
+	
+	public static double getProbability() {
+		return probability;
+	}
 
+	
+	@Override
+	public boolean getHasStolen() {
+		return this.hasStolen;
+	}
 	public static void generateRPClass() {
 		try {
 			final RPClass fox = new RPClass("fox");
@@ -125,7 +134,5 @@ public class Fox extends Pet{
 		return true;
 	}
 	
-	//public goToCreature
-
 }
 
