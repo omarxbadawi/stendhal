@@ -13,17 +13,14 @@
 package games.stendhal.server.entity.status;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
+
 import static org.junit.Assert.assertTrue;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 
-import games.stendhal.server.core.engine.SingletonRepository;
-import games.stendhal.server.core.engine.StendhalRPZone;
-import games.stendhal.server.entity.item.ConsumableItem;
+
 import games.stendhal.server.entity.player.Player;
 import games.stendhal.server.maps.MockStendlRPWorld;
 
@@ -71,36 +68,15 @@ public class SleepStatusTest {
 		final EatStatusTurnListener eatListener = new EatStatusTurnListener(victim.getStatusList());
 		eatListener.onTurnReached(5);
 		assertTrue(victim.hasStatus(StatusType.EATING));
+		assertEquals(victim.getHP(), 50);
 		
-		final SleepStatus sleep = new SleepStatus(30, 5, 30);
-		final SleepStatusHandler sleepStatusHandler = new SleepStatusHandler();
-		sleepStatusHandler.inflict(sleep, victim.getStatusList(), victim);
-		final SleepStatusTurnListener sleepListener = new SleepStatusTurnListener(victim.getStatusList());
-		assertTrue(victim.hasStatus(StatusType.SLEEPING));
-		sleepListener.onTurnReached(5);
-		assertEquals(victim.getHP(), 80);
-	}
-	
-	/**
-	 * Tests for disable movement.
-	 */
-	@Test
-	public void testDisableMovement() {
-		final Player victim = PlayerTestHelper.createPlayer("bob");
-		SingletonRepository.getRPWorld().addRPZone(new StendhalRPZone("0_semos_canyon", 50, 50));
-		SingletonRepository.getRPWorld().getZone("0_semos_canyon").add(victim);
-		victim.setPosition(0, 0);
-
 		final SleepStatus sleep = new SleepStatus(30, 10, 30);
 		final SleepStatusHandler sleepStatusHandler = new SleepStatusHandler();
 		sleepStatusHandler.inflict(sleep, victim.getStatusList(), victim);
-		final SleepStatusTurnListener listener = new SleepStatusTurnListener(victim.getStatusList());
+
 		assertTrue(victim.hasStatus(StatusType.SLEEPING));
-		
-		victim.setPathPosition(10);
-		victim.applyMovement();
-		listener.onTurnReached(10);
-		assertFalse(victim.hasStatus(StatusType.SLEEPING));
+		eatListener.onTurnReached(5);
+		assertEquals(victim.getHP(), 80);
 	}
 	
 	
@@ -112,16 +88,13 @@ public class SleepStatusTest {
 		final Player victim = PlayerTestHelper.createPlayer("bob");
 		victim.initHP(100);
 		victim.setHP(50);
-		final String poisontype = "greater poison";
-		final ConsumableItem poison = (ConsumableItem) SingletonRepository.getEntityManager().getItem(poisontype);
-		poison.put("amount", 20);
-		poison.put("frequency", 5);
-		poison.put("regen", 10);
 		
-		final PoisonAttacker poisoner = new PoisonAttacker(100, poison);
-		poisoner.onAttackAttempt(victim, SingletonRepository.getEntityManager().getCreature("snake"));
+		final PoisonStatus poisonStatus = new PoisonStatus(-20, 5, -10);
+		final PoisonStatusHandler poisonStatusHandler = new PoisonStatusHandler();
+		poisonStatusHandler.inflict(poisonStatus, victim.getStatusList(), victim);
 		assertTrue(victim.hasStatus(StatusType.POISONED));
 		final PoisonStatusTurnListener listener = new PoisonStatusTurnListener(victim.getStatusList());
+		
 		listener.onTurnReached(5);
 		assertEquals(victim.getHP(), 40);
 
@@ -131,6 +104,6 @@ public class SleepStatusTest {
 		sleepStatusHandler.inflict(sleep, victim.getStatusList(), victim);
 		assertTrue(victim.hasStatus(StatusType.SLEEPING));
 		listener.onTurnReached(5);
-		assertNotEquals(victim.getHP(), 30);
+		assertEquals(victim.getHP(), 35);
 	}
 }
