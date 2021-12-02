@@ -14,7 +14,6 @@ package games.stendhal.server.entity.status;
 import games.stendhal.server.core.events.TurnListener;
 import games.stendhal.server.core.events.TurnNotifier;
 import games.stendhal.server.entity.RPEntity;
-import games.stendhal.server.entity.player.Player;
 
 /**
  * sleeping turn listener
@@ -48,17 +47,8 @@ public class SleepStatusTurnListener implements TurnListener {
 
     if (turn % sleeping.getFrecuency() == 0) {
       final int amount = sleeping.consume();
-
-      // is full hp?
-      if (entity.heal(amount, true) == 0) {
-        if (entity instanceof Player) {
-          statusList.removeAll(SleepStatus.class);
-        }
-      }
+      entity.heal(amount, true);
     }
-
-    // TODO: reduce damage from poison
-    // TODO: make food increase healing
 
     TurnNotifier.get().notifyInTurns(0, this);
   }
