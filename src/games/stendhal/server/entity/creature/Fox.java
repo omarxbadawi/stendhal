@@ -114,6 +114,18 @@ public class Fox extends Pet{
 	protected boolean takesPartInCombat() {
 		return false;
 	}
+	
+	/**
+	 * Can this Pet steal?
+	 *
+	 * @return true, if it can be attacked by creatures, false otherwise
+	 */
+	@Override
+	protected boolean canSteal() {
+		return true;
+	}
+	
+	//public goToCreature
 
 }
 

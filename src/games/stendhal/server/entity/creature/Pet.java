@@ -52,7 +52,12 @@ public abstract class Pet extends DomesticAnimal {
 
 
 	private static final int START_HUNGER_VALUE = 0;
-
+	
+	/**
+	 * This lets us know if the pet can steal things
+	 */
+	
+	
 	/** the logger instance. */
 	private static final Logger LOGGER = Logger.getLogger(Pet.class);
 
@@ -150,6 +155,15 @@ public abstract class Pet extends DomesticAnimal {
 				LOGGER.warn("INCOHERENCE: Pet " + this + " isn't owned by " + owner);
 			}
 		}
+	}
+	
+	/**
+	 * Can this Pet steal
+	 *
+	 * @return true, if it can be attacked by creatures, false otherwise
+	 */
+	protected boolean canSteal() {
+		return false;
 	}
 
 	/**
@@ -259,8 +273,25 @@ public abstract class Pet extends DomesticAnimal {
 				this.setMovement(myTarget, 0, 0, this.getMovementRange());
 			}
 		}
-
-
+		
+		//Goes to whatever the owner is targeting to steal
+		if (System.getProperty("stendhal.petleveling", "false").equals("true")
+				&& canSteal() && (owner != null)
+				&& (owner.getAttackTarget() != null)) {
+			myTarget = owner.getAttackTarget();
+			this.setTarget(myTarget);
+			this.setIdea("non-aggressive");
+			
+			if (!nextTo(myTarget)) {
+				clearPath();
+				this.setMovement(myTarget, 0, 0, this.getMovementRange());
+					}
+			
+			//Stealing occurs
+			//once true the pet will return to owner
+		//List<Item> stealables = myTarget.getDroppables();
+		}
+		
 		if ((this.getLevel() >= this.getLVCap()) && canGrow()) {
 
 			// Postpone growing to the next turn because it may involve
