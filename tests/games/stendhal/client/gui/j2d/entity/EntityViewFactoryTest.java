@@ -66,9 +66,7 @@ public class EntityViewFactoryTest {
 		assertEquals(EntityViewFactory.getViewClass("cat", null, null), Pet2DView.class);
 		assertEquals(EntityViewFactory.getViewClass("pet", null, null), Pet2DView.class);
 		assertEquals(EntityViewFactory.getViewClass("baby_dragon", null, null), Pet2DView.class);
-		assertEquals(EntityViewFactory.getViewClass("fox_pet", null, null), Pet2DView.class);
 
-		
 		assertEquals(EntityViewFactory.getViewClass("plant_grower", null, null), PlantGrower2DView.class);
 
 		assertEquals(EntityViewFactory.getViewClass("player", null, null), Player2DView.class);

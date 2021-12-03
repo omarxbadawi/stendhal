@@ -25,7 +25,6 @@ import games.stendhal.server.entity.creature.BabyDragon;
 import games.stendhal.server.entity.creature.Cat;
 import games.stendhal.server.entity.creature.Pet;
 import games.stendhal.server.entity.creature.PurpleDragon;
-import games.stendhal.server.entity.creature.Fox_Pet;
 //import games.stendhal.server.entity.creature.Sheep;
 //import games.stendhal.server.core.engine.transformer.PlayerTransformer;
 import games.stendhal.server.entity.item.Item;
@@ -71,7 +70,7 @@ public class SummonPetScroll extends Scroll {
 	 *
 	 * @param player
 	 *            The player who used the scroll
-	 * @return true if summoning was successful
+	 * @return true iff summoning was successful
 	 */
 	@Override
 	protected boolean useScroll(final Player player) {
@@ -114,8 +113,6 @@ public class SummonPetScroll extends Scroll {
 		case "purple dragon":
 			pet = new PurpleDragon(player);
 			break;
-		case "fox pet":
-			pet = new Fox_Pet(player);
 		default:
 			// Didn't match a known pet type
 			player.sendPrivateText("This scroll does not seem to work. You should talk to the magician who created it.");
