@@ -1,6 +1,20 @@
 Changelog
 ---------
 ---------
+1.37uom
+features implemented
+- A tour guide NPC who talks to players and teleports them to Amazon Island.
+
+- A fox pet has been added.
+- It can steal gold from enemies while in combat.
+
+features almost implemented
+- Sleep status has been implemented.
+- A sleeping poison can be used to put the player in the status.
+
+- Furniture for players' houses
+- Soon buyable from a shop
+
 1.36uom
 *fixes*
 - Solar Centaur is now susceptible to ice; Glacier Centaur is now susceptible to fire.

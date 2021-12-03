@@ -169,18 +169,25 @@ Authors of Stendhal are:
   · Artist (mimic, dodo, suba diving concepts)
 - Jin Wang
   · Coder (fixed Teleport scroll bug)
+  · Coder added sleeping status/furniture
 - Ingy Abdelhalim
   · Coder (fixed Zynn dialogue bug)
+  · Coder added touring npc/stealing pet
 - Georgia Cawley
   · Coder (fixed Centaurs susceptibility bug)
+  · Coder added touring npc/stealing pet
 - Ignes Simeonova
   · Coder (fixed Gamblos arrow bug)
+  · Coder added sleeping status/furniture
 - Ivan Zhechev
   · Coder (fixed Potion shop bug)
+  · Coder added sleeping status/furniture
 - Omar Badawi
   · Coder (fixed Omura dialogue bug)
+  · Coder added touring npc/stealing pet
 - Shakhawath Shah
   · Coder (fixed Elvish hat bug)
+  · Coder added sleeping status/furniture
 
 We also thank many who have contributed to Stendhal by providing patches,
 which the rest of the team commited on their behalf.
