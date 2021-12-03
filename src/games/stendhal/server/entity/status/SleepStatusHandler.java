@@ -32,6 +32,8 @@ public class SleepStatusHandler implements StatusHandler<SleepStatus> {
 		statusList.addInternal(status);
 		int count = statusList.countStatusByType(status.getStatusType());
 
+		statusList.getEntity().sendPrivateText("In the inflict status thing.");
+
 		// We are already asleep
 		if (count >= 1) {
 			return;

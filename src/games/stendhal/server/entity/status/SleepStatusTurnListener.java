@@ -35,14 +35,11 @@ public class SleepStatusTurnListener implements TurnListener {
     RPEntity entity = statusList.getEntity();
     SleepStatus sleeping = statusList.getFirstStatusByClass(SleepStatus.class);
 
+    entity.sendPrivateText("We have inflicted sleep");
+
     // check that the entity exists
     if (entity == null || sleeping == null) {
       return;
-    }
-
-    // check if the entity is moving
-    if (entity.hasPath()) {
-      statusList.remove(sleeping);
     }
 
     if (turn % sleeping.getFrecuency() == 0) {
