@@ -67,25 +67,6 @@ abstract class ConsumableStatus extends Status implements Comparable<ConsumableS
 	public int getRegen() {
 		return regen;
 	}
-	
-	/**
-	 * sets the amount of change per event
-	 *
-	 * @param regen
-	 */
-	public void setRegen(int regen) {
-		this.regen = regen;
-	}
-	
-	/**
-	 * sets the frequency of events
-	 *
-	 * @param frequency
-	 */
-	public void setFrecuency(int freq) {
-		this.frequency = freq;
-	}
-	
 
 	/**
 	 * Consumes a part of this status.

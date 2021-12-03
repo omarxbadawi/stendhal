@@ -60,14 +60,8 @@ public class EatStatusTurnListener implements TurnListener {
 
 		Collections.sort(toConsume);
 		final ConsumableStatus food = toConsume.get(0);
-		// check that if entity is asleep
-	    SleepStatus sleeping = statusList.getFirstStatusByClass(SleepStatus.class);
-	    int original = food.getFrecuency();
-	    if (sleeping != null) {
-	    	food.setFrecuency((int)Math.round(original*0.5));
-	    }
-		if (turn % food.getFrecuency() == 0) {
 
+		if (turn % food.getFrecuency() == 0) {
 			final int amount = food.consume();
 			if (isChoking(toConsume)) {
 				entity.put(ATTRIBUTE_NAME_CHOKING, amount);
@@ -77,8 +71,6 @@ public class EatStatusTurnListener implements TurnListener {
 				}
 				entity.put(ATTRIBUTE_NAME, amount);
 				entity.notifyWorldAboutChanges();
-				
-				
 			}
 
 			// is full hp?
@@ -93,7 +85,7 @@ public class EatStatusTurnListener implements TurnListener {
 				statusList.remove(food);
 			}
 		}
-		food.setFrecuency(original);
+
 		TurnNotifier.get().notifyInTurns(0, this);
 	}
 

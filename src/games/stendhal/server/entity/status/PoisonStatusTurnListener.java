@@ -52,8 +52,7 @@ public class PoisonStatusTurnListener implements TurnListener {
 			}
 			return;
 		}
-	    
-		
+
 		List<ConsumableStatus> toRemove = new LinkedList<ConsumableStatus>();
 		int sum = 0;
 		int amount = 0;
@@ -62,20 +61,12 @@ public class PoisonStatusTurnListener implements TurnListener {
 				if (poison.consumed()) {
 					toRemove.add(poison);
 				} else {
-					// check that if entity is asleep
-				    SleepStatus sleeping = statusList.getFirstStatusByClass(SleepStatus.class);
-				    int originalregen = poison.getRegen();
-				    if (sleeping != null) {
-				    	poison.setRegen((int)Math.round(0.5*originalregen));
-				    }
 					amount = poison.consume();
 					entity.damage(-amount, poison);
 					sum += amount;
 					entity.put(ATTRIBUTE_NAME, sum);
-					poison.setRegen(originalregen);
 				}
 				entity.notifyWorldAboutChanges();
-				
 			}
 		}
 

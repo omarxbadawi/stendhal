@@ -332,19 +332,14 @@ public class Player extends DressedEntity implements UseListener {
 		if (size != 0) {
 			direction = directions.get(size - 1);
 
-			if(hasStatus(StatusType.SLEEPING)) {
-				setSpeed(0);
-			} else {
+			// as an effect of the poisoning, the player's controls
+			// are switched to make it difficult to navigate.
 			if (hasStatus(StatusType.POISONED) || has("status_confuse")) {
 				direction = direction.oppositeDirection();
 			}
 
-			// as an effect of the poisoning, the player's controls
-			// are switched to make it difficult to navigate.
-
 			setDirection(direction);
 			setSpeed(getBaseSpeed());
-			}
 		}
 	}
 
