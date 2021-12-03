@@ -29,6 +29,7 @@ import games.stendhal.server.entity.creature.BabyDragon;
 import games.stendhal.server.entity.creature.Cat;
 import games.stendhal.server.entity.creature.Creature;
 import games.stendhal.server.entity.creature.PurpleDragon;
+import games.stendhal.server.entity.creature.Fox_Pet;
 import games.stendhal.server.entity.creature.RaidCreature;
 import games.stendhal.server.entity.creature.Sheep;
 import games.stendhal.server.entity.item.StackableItem;
@@ -102,6 +103,14 @@ public class SummonAction extends AdministrationAction {
 				} else {
 					final Sheep sheep = new Sheep(player);
 					found(type, sheep);
+				}
+			}
+			else if ("fox_pet".equals(type)) {
+				if (player.hasPet()) {
+					error("You already own a pet!");
+				} else {
+					final Fox_Pet fox = new Fox_Pet(player);
+					found(type, fox);
 				}
 			}
 		}

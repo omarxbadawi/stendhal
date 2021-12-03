@@ -13,6 +13,7 @@
 package games.stendhal.server.entity.player;
 
 import games.stendhal.server.entity.creature.BabyDragon;
+import games.stendhal.server.entity.creature.Fox_Pet;
 import games.stendhal.server.entity.creature.Cat;
 import games.stendhal.server.entity.creature.Pet;
 import games.stendhal.server.entity.creature.PurpleDragon;
@@ -77,6 +78,8 @@ public class PlayerPetManager {
 					return new BabyDragon(object, player);
 				} else if (object.get("type").equals("purple_dragon")) {
 					return new PurpleDragon(object, player);
+				} else if (object.get("type").equals("fox_pet")) {
+					return new Fox_Pet(object, player);
 				}
 			}
 		}

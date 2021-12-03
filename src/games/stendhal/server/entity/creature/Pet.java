@@ -13,11 +13,13 @@ package games.stendhal.server.entity.creature;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import org.apache.log4j.Logger;
 
 import games.stendhal.common.ItemTools;
 import games.stendhal.common.Rand;
+import games.stendhal.server.core.engine.SingletonRepository;
 import games.stendhal.server.core.events.TurnListener;
 import games.stendhal.server.core.events.TurnNotifier;
 import games.stendhal.server.entity.Killer;
@@ -52,7 +54,24 @@ public abstract class Pet extends DomesticAnimal {
 
 
 	private static final int START_HUNGER_VALUE = 0;
+	
+	/**
+	 * This will be the percentage chance they can steal
+	 */
+	protected static double probability = 0.1;
 
+	/**
+	 * Random number generator.
+	 */
+	protected Random rand;
+	/**
+	 * Has pet stolen anything
+	 */
+	protected boolean hasStolen = false;
+	
+	
+	
+	
 	/** the logger instance. */
 	private static final Logger LOGGER = Logger.getLogger(Pet.class);
 
@@ -151,6 +170,27 @@ public abstract class Pet extends DomesticAnimal {
 			}
 		}
 	}
+	
+	public boolean getHasStolen() {
+		return this.hasStolen;
+	}
+	
+	/**
+	 * Can this Pet steal
+	 *
+	 * @return true, if it can be steal from creatures, false otherwise
+	 */
+	protected boolean canSteal() {
+		return false;
+	}
+	
+	protected boolean stealChance() {
+		rand = new Random();
+		if (rand.nextDouble() < probability) {
+			return true;
+		}
+		return false;
+	}
 
 	/**
 	 * Returns the PetFood that is nearest to the pet's current position. If
@@ -245,9 +285,53 @@ public abstract class Pet extends DomesticAnimal {
 		} else if (Rand.rand(FAT_FACTOR) == 1) {
 			increaseHunger();
 		}
+		if(nextTo(owner)) {
+			if(owner.getAttackTarget() != null){
+				Item item = SingletonRepository.getEntityManager().getItem("money");
+				rand = new Random();
+				if (rand.nextDouble() < probability) {
+					owner.equipOrPutOnGround(item);
+				}
+			}
+		}
 
-		//fight whatever owner is targeting
-		if (System.getProperty("stendhal.petleveling", "false").equals("true")
+		//fights from whatever owner is targeting
+		if(System.getProperty("stendhal.petleveling", "false").equals("true")
+				&& canSteal() && (owner != null)
+				&& (owner.getAttackTarget() != null)) {
+			myTarget = owner.getAttackTarget();
+			this.setTarget(myTarget);
+			this.setIdea("aggressive");
+			
+			if (!nextTo(myTarget)) {
+				clearPath();
+				this.setMovement(myTarget, 0, 0, this.getMovementRange());
+					}
+			/**
+			 * If the pet is next to the target, you're
+			 * attacking you have a chance to 
+			 * steal from the target
+			 */
+		
+			else {
+				hasStolen = stealChance();
+			}
+			
+			if(hasStolen && nextTo(owner)) {
+				List<Item> items = myTarget.getDroppables();
+				Random rand = new Random();
+		        Item stolenItem = items.get(rand.nextInt(items.size()));
+				owner.equipOrPutOnGround(stolenItem);
+				hasStolen = false;
+			}
+			else if(hasStolen) {
+				clearPath();
+				moveToOwner();
+			}
+			
+			
+		}
+		else if (System.getProperty("stendhal.petleveling", "false").equals("true")
 				&& takesPartInCombat() && (owner != null)
 				&& (owner.getAttackTarget() != null)) {
 			myTarget = owner.getAttackTarget();
@@ -259,9 +343,11 @@ public abstract class Pet extends DomesticAnimal {
 				this.setMovement(myTarget, 0, 0, this.getMovementRange());
 			}
 		}
+		
+		//Goes to whatever the owner is targeting to steal
 
-
-		if ((this.getLevel() >= this.getLVCap()) && canGrow()) {
+		
+		if((this.getLevel() >= this.getLVCap()) && canGrow()){
 
 			// Postpone growing to the next turn because it may involve
 			// removing this NPC-entity from the zone and adding a
