@@ -770,13 +770,13 @@
   <item name="sleep potion">
   	<type class="drink" subclass="sleep_potion" tileid="-1"/>
   	<description>You see a sleep potion that puts you to sleep.</description>
-  	<implementation class-name="games.stendhal.server.entity.item.Drink" />
+  	<implementation class-name="games.stendhal.server.entity.item.SleepPotion" />
   	<attributes>
   		<amount value="10000" />
   		<frequency value="2" />
   		<quantity value="1" />
   		<regen value="10" ></regen>
-  		<menu value="Drink" ></menu></attributes>
+  		<menu value="Drink|Use" ></menu></attributes>
   	<weight value="1.0" />
   	<value value="100" />
   	<equipable>
