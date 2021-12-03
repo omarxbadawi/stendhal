@@ -13,7 +13,7 @@ package games.stendhal.server.maps.nalwor.city;
 
 import static org.junit.Assert.assertEquals;
 //import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 //import static org.junit.Assert.assertTrue;
 //import static utilities.SpeakerNPCTestHelper.getReply;
 import static utilities.SpeakerNPCTestHelper.getReply;
@@ -71,39 +71,41 @@ public class OtherTourGuideNPCTest extends ZonePlayerAndNPCTestImpl {
 		super(ZONE_NAME, "Mouristo Maps");
 	}
 
-	@Test
-	//Player and Touristo are not null values
-	public void testEntities() {
-		assertNotNull(player);
-		assertNotNull(Mouristo);
-	}
 	
 	@Test
-	public void OtherTourDialogueAndTeleportationTest() {
-
-		MouristoEngine.step(player, "hi");
+    public void DialogueTest() {
+        if(Mouristo != null) {
+            MouristoEngine = Mouristo.getEngine();
+            player = PlayerTestHelper.createPlayer("testPlayer");
+            createDialog();
+            OtherTourDialogueRejectionTest();
+        }else {
+        	assertTrue(false);
+        }
+    }
+    public void createDialog() {
+    	MouristoEngine.step(player, "hi");
 		assertEquals(ConversationStates.ATTENDING, MouristoEngine.getCurrentState());
-		assertEquals("Hi! My name is Mousristo, Touristo's coursin! Welcome to Nalwor city tour!", getReply(Mouristo));
-		assertEquals("Nalwor is an ancient city, with some grand stone buildings with opulent interiors. A royal hall to the north west of the city is the best example of this. Lovers of nature, the elves maintain formal gardens even amongst their forest setting. These are interspersed with the administrative buildings and businesses, which include a bank, post office, jail, library and inn. There are shops which are worth visiting, as although elves dislike humans, some will trade and even make conversation, if it is to their profit. A mysterious mosaic is laid between the post office and the pottery, in the centre of the city. Near this is the tallest building in Nalwor city, a tower where each floor is decorated more sumptuously than the next.", getReply(Mouristo));
-		assertEquals("Thanks for coming on the tour! Ready to head home?", getReply(Mouristo));
+		assertEquals("Hi! My name is Mousristo, Touristo's coursin! Welcome to Nalwor city tour! Ready to start?", getReply(Mouristo));
 		MouristoEngine.step(player, "yes");
-		assertEquals("Great, lets go!", getReply(Mouristo));
+		assertEquals("Nalwor is an ancient city, with some grand stone buildings with opulent interiors. A royal hall to the north west of the city is the best example of this. Lovers of nature, the elves maintain formal gardens even amongst their forest setting. These are interspersed with the administrative buildings and businesses, which include a bank, post office, jail, library and inn. There are shops which are worth visiting, as although elves dislike humans, some will trade and even make conversation, if it is to their profit. A mysterious mosaic is laid between the post office and the pottery, in the centre of the city. Near this is the tallest building in Nalwor city, a tower where each floor is decorated more sumptuously than the next. That's it for the tour of Nalwor right now, ready to go home? Say the magic words send me back", getReply(Mouristo));
+		MouristoEngine.step(player, "send me back");
+		assertEquals("Okay, I'll send you back home then.", getReply(Mouristo));
 		StendhalRPZone newZone = SingletonRepository.getRPWorld().getZone("0_ados_city_n");
 	    assertEquals(newZone, player.getZone());
-		
-	}
-	
-	@Test
-	public void OtherTourDialogueRejectionTest() {
-		MouristoEngine.step(player, "hi");
+
+    }
+
+
+    public void OtherTourDialogueRejectionTest() {
+    	MouristoEngine.step(player, "hi");
 		assertEquals(ConversationStates.ATTENDING, MouristoEngine.getCurrentState());
-		assertEquals("Hi! My name is Mousristo, Touristo's coursin! Welcome to Nalwor city tour!", getReply(Mouristo));
-		assertEquals("Nalwor is an ancient city, with some grand stone buildings with opulent interiors. A royal hall to the north west of the city is the best example of this. Lovers of nature, the elves maintain formal gardens even amongst their forest setting. These are interspersed with the administrative buildings and businesses, which include a bank, post office, jail, library and inn. There are shops which are worth visiting, as although elves dislike humans, some will trade and even make conversation, if it is to their profit. A mysterious mosaic is laid between the post office and the pottery, in the centre of the city. Near this is the tallest building in Nalwor city, a tower where each floor is decorated more sumptuously than the next.", getReply(Mouristo));
-		assertEquals("Thanks for coming on the tour! Ready to head home?", getReply(Mouristo));
+		assertEquals("Hi! My name is Mousristo, Touristo's coursin! Welcome to Nalwor city tour! Ready to start?", getReply(Mouristo));
 		MouristoEngine.step(player, "no");
-		assertEquals("Sadly our time has run out and I must send you home", getReply(Mouristo));
+		assertEquals("I'm afraid I have to send you back home.", getReply(Mouristo));
 		StendhalRPZone newZone = SingletonRepository.getRPWorld().getZone("0_ados_city_n");
 	    assertEquals(newZone, player.getZone());
-	}
+    }
+	
 
 }

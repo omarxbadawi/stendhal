@@ -49,8 +49,6 @@ public class TourGuideNPCTest extends ZonePlayerAndNPCTestImpl{
         setNpcNames(npcName);
         super.setUp();
         Touristo = SingletonRepository.getNPCList().get(npcName);
-
-
     }
 
     @Test

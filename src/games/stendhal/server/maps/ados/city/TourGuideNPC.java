@@ -45,7 +45,6 @@ public class TourGuideNPC implements ZoneConfigurator {
         @Override
         protected void createDialog() {
         	
-//        	final SpeakerNPC Touristo = new SpeakerNPC("Touristo Maps");
         	
         	addGreeting("Hi! My name is Tousristo, do you want to go on a tour to Nalwor city?");
      
