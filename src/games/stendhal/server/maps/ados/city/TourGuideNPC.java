@@ -12,52 +12,51 @@
  ***************************************************************************/
 package games.stendhal.server.maps.ados.city;
 
-import games.stendhal.server.core.config.ZoneConfigurator;
-import games.stendhal.server.core.engine.SingletonRepository;
-import games.stendhal.server.core.engine.StendhalRPZone;
-// this one is just because our NPC is a seller
-import games.stendhal.server.entity.npc.ShopList;
-import games.stendhal.server.entity.npc.SpeakerNPC;
-// this one is just because our NPC is a seller
-//import games.stendhal.server.entity.npc.behaviour.adder.SellerAdder;
-// this one is just because our NPC is a seller
-//import games.stendhal.server.entity.npc.behaviour.impl.SellerBehaviour;
-//import games.stendhal.server.entity.npc.ChatAction;
-//import games.stendhal.server.entity.npc.ConversationStates;
-//import games.stendhal.server.entity.npc.action.MultipleActions;
-//import games.stendhal.server.entity.player.Player;
-//import games.stendhal.server.entity.npc.condition.LevelGreaterThanCondition;
-//import games.stendhal.server.entity.npc.condition.LevelLessThanCondition;
-
-//import java.util.Arrays;
-//import java.util.LinkedList;
-//import java.util.List;
+import java.util.Arrays;
 import java.util.Map;
 
+
+
+import games.stendhal.server.core.config.ZoneConfigurator;
+import games.stendhal.server.core.engine.StendhalRPZone;
+import games.stendhal.server.entity.npc.ConversationStates;
+import games.stendhal.server.entity.npc.SpeakerNPC;
+import games.stendhal.server.entity.npc.action.TeleportAction;
+
 public class TourGuideNPC implements ZoneConfigurator {
-    // this is just because he has a 'shop' to sell tour tickets
-	private final ShopList shops = SingletonRepository.getShopList();
-	
 	/**
 	 * Configure a zone.
 	 *
 	 * @param    zone        The zone to be configured.
 	 * @param    attributes    Configuration attributes.
 	 */
+	@Override
 	public void configureZone(final StendhalRPZone zone, final Map<String, String> attributes) {
 	    buildNPC(zone);
 	}
 	private void buildNPC(final StendhalRPZone zone) {
         final SpeakerNPC Touristo = new SpeakerNPC("Touristo Maps") {
+        
+        @Override
         protected void createPath() {
             setPath(null);
         }
 
+        @Override
         protected void createDialog() {
-            // Lets the NPC reply with "Hello"
-            addGreeting("Hi! My name is Touristo. I'll be starting a tour to Nalwor soon.");
-            //NPC's response when a player says goodbye
-            addGoodbye("Bye");
+        	
+//        	final SpeakerNPC Touristo = new SpeakerNPC("Touristo Maps");
+        	
+        	addGreeting("Hi! My name is Tousristo, do you want to go on a tour to Nalwor city?");
+     
+        	add(ConversationStates.ATTENDING, Arrays.asList("ya", "Ya", "yes", "Yes", "yes please", "yah"),
+                    ConversationStates.ATTENDING,
+                    "Great, lets go!", new TeleportAction("0_nalwor_city_n",29,80,null));  
+            
+        	add(ConversationStates.ATTENDING, Arrays.asList("no", "No", "No thanks", "nope"),
+                    ConversationStates.ATTENDING,
+                    "Okay, see you around.", null);
+
         }
     };
 
@@ -66,7 +65,6 @@ public class TourGuideNPC implements ZoneConfigurator {
     // set a description for when a player does 'Look'
     Touristo.setDescription("You see Toursito Maps , he looks a a bit busy at the moment but perhaps he can help you anyway.");
     // Set the initial position to be the first node on the Path you defined above.
-    //che
     Touristo.setPosition(50, 90);
     Touristo.initHP(100);
 
