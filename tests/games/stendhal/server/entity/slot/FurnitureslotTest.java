@@ -7,7 +7,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import games.stendhal.server.core.engine.SingletonRepository;
-import games.stendhal.server.entity.item.Item;
+import games.stendhal.server.entity.item.Furniture;
 import games.stendhal.server.entity.player.Player;
 import games.stendhal.server.maps.MockStendlRPWorld;
 import marauroa.common.game.RPSlot;
@@ -35,7 +35,7 @@ public class FurnitureslotTest {
 	 */
 	@Test
 	public void testPick() throws Exception {
-		Item furniture = SingletonRepository.getEntityManager().getItem("chair");
+		Furniture furniture = (Furniture) SingletonRepository.getEntityManager().getItem("chair");
 		assertTrue(furniture != null);
 		Player offerer = PlayerTestHelper.createPlayer(OFFERER_NAME);
 		RPSlot furnitureslot = offerer.getSlot("furniture");
@@ -52,7 +52,7 @@ public class FurnitureslotTest {
 	 */
 	@Test
 	public void testDrop() throws Exception {
-		Item furniture = SingletonRepository.getEntityManager().getItem("chair");
+		Furniture furniture = (Furniture) SingletonRepository.getEntityManager().getItem("chair");
 		assertTrue(furniture != null);
 		Player offerer = PlayerTestHelper.createPlayer(OFFERER_NAME);
 		assertFalse(offerer.drop("chair"));
