@@ -13,7 +13,7 @@ import games.stendhal.server.maps.MockStendlRPWorld;
 import marauroa.common.game.RPSlot;
 import utilities.PlayerTestHelper;
 
-public class FurnitureslotTest {
+public class FurnitureSlotTest {
 
 	@BeforeClass
 	public static void setUp() {
