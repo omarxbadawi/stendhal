@@ -768,4 +768,24 @@
     </equipable>
   </item>
 
+  <item name="sleep poison">
+  	<type class="drink" subclass="sleep_poison" tileid="-1"/>
+  	<description>You see a sleep potion that puts you to sleep.</description>
+  	<implementation class-name="games.stendhal.server.entity.item.SleepPotion" />
+  	<attributes>
+  		<amount value="100" />
+  		<frequency value="5" />
+  		<quantity value="1" />
+  		<regen value="10" ></regen>
+  		<menu value="Drink|Use" ></menu></attributes>
+  	<weight value="1.0" />
+  	<value value="100" />
+  	<equipable>
+  		<slot name="ground"></slot>
+  		<slot name="content" />
+  		<slot name="bag" />
+  		<slot name="lhand" />
+  		<slot name="rhand" /></equipable>
+  </item>
+
 </items>
