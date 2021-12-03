@@ -5,20 +5,17 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
-//import static org.junit.Assert.fail;
-//import static org.junit.Assert.fail;
 
-//import org.hamcrest.core.Is;
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import games.stendhal.server.core.engine.SingletonRepository;
-//import java.util.List;
-//import games.stendhal.server.entity.creature;
+
 import games.stendhal.server.core.engine.StendhalRPZone;
 import games.stendhal.server.entity.player.Player;
 import marauroa.common.Log4J;
-import marauroa.common.game.RPObject;
 import games.stendhal.server.maps.MockStendlRPWorld;
 import utilities.PlayerTestHelper;
 import utilities.RPClass.Fox_PetTestHelper;
@@ -32,46 +29,62 @@ public class FoxTest {
 		MockStendlRPWorld.get();
 	}
 	
+	@Test
+	public void testFox() {
+		final StendhalRPZone zone = new StendhalRPZone("zone");
+		final Player bob = PlayerTestHelper.createPlayer("bob");
+		zone.add(bob);
+		final Fox_Pet swiper = new Fox_Pet(bob);
+		zone.add(swiper);
+		assertNotNull(swiper);	
+		}
+	
 	/**
 	 * Tests for chance for stealing money
 	 */
 	@Test
-	public void testFox() {
-		//final StendhalRPZone zone = new StendhalRPZone("zone");
-		//final Player bob = PlayerTestHelper.createPlayer("bob");
-		//zone.add(bob);
-		//final Fox swiper = new Fox(bob);
-		//List<String> foodnames = swiper.getFoodNames();
+	public void testFoxMoney() {
 		assertEquals(0.1, Fox_Pet.getProbability(), 0.002);
-		//int moneyChance = 3;// TODO swiper.getMoneyPercent();
-		//assertEquals(0.1, moneyChance, 0.001);
-		
+
 	}
 	
 	@Test
 	/**
-	 * Test if foxes target the creature the player is attacking
+	 * Test if foxes can steal
 	 */
-	public void testStealing(){
-		StendhalRPZone zone = new StendhalRPZone("zone");
-		Player bob = PlayerTestHelper.createPlayer("bob");
-		zone.add(bob);
-		RPObject template = new RPObject();
-		template.put("hp", 30);
-		Fox_Pet swiper = new Fox_Pet(template, bob);
-		assertNotNull(swiper);
-		zone.add(swiper);
-		Creature attackTarget = SingletonRepository.getEntityManager().getCreature("snake");
-		zone.add(attackTarget);
-		assertEquals(swiper.getHasStolen(), false);
-		bob.setTarget(attackTarget);
-		bob.attack();
-		//swiper.logic();
-		//swiper.setTarget(attackTarget);
-		assertNotNull(swiper.getAttackTarget());
-		//fail(""+swiper.getAttackTarget());
-		assertThat(swiper.getAttackTarget(), is(bob.getAttackTarget()));
+	public void testStealing() {
+			final BabyDragon drako = new BabyDragon();
+			assertThat(drako.canSteal(), is(false));
+			final Fox_Pet swiper = new Fox_Pet();
+			assertThat(swiper.canSteal(), is(true));
+			
+		
+		}	
+	List<String> foods = Arrays.asList("meat",
+	"ham",
+	"tripe",
+	"milk",
+	"chicken",
+	"trout",
+	"cod",
+	"mackerel",
+	"char",
+	"perch",
+	"roach",
+	"surgeonfish",
+	"clownfish"
+	);
+	
+	//	List<String> foods = Arrays.asList("meat","ham", "tripe", "milk", "chicken", "trout", "cod", "mackeral", "char", "perch", "roach", "sturgeonfish", "clownfish");
+   
+/**
+	 * Tests for Foxes food
+	 */
+	@Test
+	public void testFoxFood() {
+		final Fox_Pet swiper = new Fox_Pet();
+		assertThat(swiper.getFoodNames(), is(foods));
+	}
 
-		}
 		
 	}

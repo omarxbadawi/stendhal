@@ -327,8 +327,6 @@ public abstract class Pet extends DomesticAnimal {
 			else if(hasStolen) {
 				clearPath();
 				moveToOwner();
-				//this.applyMovement();
-				//notifyWorldAboutChanges();
 			}
 			
 			
