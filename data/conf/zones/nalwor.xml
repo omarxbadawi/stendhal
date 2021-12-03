@@ -258,6 +258,7 @@ below average.
     <!-- NPCs -->
     <configurator
       class-name="games.stendhal.server.maps.nalwor.flowershop.FlowerGrowerNPC" />
+    <configurator class-name="games.stendhal.server.maps.nalwor.city.OtherTourGuideNPC" />
 
     <!-- Portals -->
     <portal x="7" y="23" ref="entrance">
