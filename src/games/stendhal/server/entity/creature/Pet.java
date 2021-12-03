@@ -19,6 +19,7 @@ import org.apache.log4j.Logger;
 
 import games.stendhal.common.ItemTools;
 import games.stendhal.common.Rand;
+import games.stendhal.server.core.engine.SingletonRepository;
 import games.stendhal.server.core.events.TurnListener;
 import games.stendhal.server.core.events.TurnNotifier;
 import games.stendhal.server.entity.Killer;
@@ -284,6 +285,15 @@ public abstract class Pet extends DomesticAnimal {
 		} else if (Rand.rand(FAT_FACTOR) == 1) {
 			increaseHunger();
 		}
+		if(nextTo(owner)) {
+			if(owner.getAttackTarget() != null){
+				Item item = SingletonRepository.getEntityManager().getItem("money");
+				rand = new Random();
+				if (rand.nextDouble() < probability) {
+					owner.equipOrPutOnGround(item);
+				}
+			}
+		}
 
 		//fights from whatever owner is targeting
 		if(System.getProperty("stendhal.petleveling", "false").equals("true")
@@ -291,7 +301,7 @@ public abstract class Pet extends DomesticAnimal {
 				&& (owner.getAttackTarget() != null)) {
 			myTarget = owner.getAttackTarget();
 			this.setTarget(myTarget);
-			this.setIdea("non-aggressive");
+			this.setIdea("aggressive");
 			
 			if (!nextTo(myTarget)) {
 				clearPath();
@@ -317,9 +327,8 @@ public abstract class Pet extends DomesticAnimal {
 			else if(hasStolen) {
 				clearPath();
 				moveToOwner();
-				
-				this.applyMovement();
-				notifyWorldAboutChanges();
+				//this.applyMovement();
+				//notifyWorldAboutChanges();
 			}
 			
 			

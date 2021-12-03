@@ -105,9 +105,9 @@ public class SummonAction extends AdministrationAction {
 					found(type, sheep);
 				}
 			}
-			else if ("fox pet".equals(type)) {
+			else if ("fox_pet".equals(type)) {
 				if (player.hasPet()) {
-					error("You already own a sheep!");
+					error("You already own a pet!");
 				} else {
 					final Fox_Pet fox = new Fox_Pet(player);
 					found(type, fox);
